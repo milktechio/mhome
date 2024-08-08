@@ -2,7 +2,7 @@ import Text "mo:base/Text";
 import HashMap "mo:base/HashMap";
 import Bool "mo:base/Bool";
 
-actor class Whitelist (user : Text){
+actor Whitelist {
 
     type User = Text;
 
