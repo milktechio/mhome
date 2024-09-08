@@ -1,0 +1,9 @@
+service : {
+  /// ********************OWNER***************************
+  addOptionToPoll: (text) -> (bool);
+  airDrop: (nat) -> (bool);
+  /// ********************CALLER*************************
+  register: () -> (bool);
+  registerVote: (nat, nat) -> (bool);
+  removeUser: () -> (bool);
+}
