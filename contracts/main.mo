@@ -5,7 +5,7 @@ import Whitelist "whitelist";
 import User "User";
 import Airdrop "Airdrop";
 actor Main{
-   let owner : Principal = Principal.fromText("b77ix-eeaaa-aaaaa-qaada-cai");//invalido
+   let owner : Principal = Principal.fromText("otpyl-647cy-xr3ji-3bjmd-zs5h3-iu4so-jfu4b-cbjtl-bipcl-xdu7h-2ae");
    stable var tokens_amount : Nat = 10000;
    let whitelist = Whitelist.Whitelist();
    let poll = Polls.Poll();
