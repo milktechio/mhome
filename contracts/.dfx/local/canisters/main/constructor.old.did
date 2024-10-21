@@ -1,0 +1,8 @@
+service : {
+  addOptionToPoll: (text) -> (bool);
+  airDrop: (nat) -> (bool);
+  register: () -> (bool);
+  registerVote: (nat, nat) -> (bool);
+  removeUser: () -> (bool);
+  say: (text) -> (text) query;
+}

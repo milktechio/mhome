@@ -2,8 +2,10 @@ service : {
   /// ********************OWNER***************************
   addOptionToPoll: (text) -> (bool);
   airDrop: (nat) -> (bool);
+  getUser: () -> (text) query;
   /// ********************CALLER*************************
   register: () -> (bool);
   registerVote: (nat, nat) -> (bool);
   removeUser: () -> (bool);
+  say: (text) -> (text) query;
 }
