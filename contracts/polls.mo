@@ -1,11 +1,6 @@
-import Array "mo:base/Array";
 import Nat "mo:base/Nat";
-import Iter "mo:base/Iter";
-import Principal "mo:base/Principal";
 import Option "mo:base/Option";
-import Debug "mo:base/Debug";
-import Buffer "mo:base/Buffer";
-import Whitelist "whitelist";
+import SB "libs/StableBuffer";
 
 type Option = {
         id : Nat;
@@ -13,18 +8,16 @@ type Option = {
         var votes : Nat;
 };
 
-class Poll(){
-    var poll = Buffer.Buffer<Option>(32);
-    
+class Poll(polls : SB.StableBuffer<Option>){
     public func addOption(name: Text) : Bool{
-            let new_option : Option = {id = poll.size();name = name; var votes = 0};
-            poll.add(new_option);
+            let new_option : Option = {id = SB.size(polls);name = name; var votes = 0};
+            SB.add(polls,new_option);
             return true;
         return false;
     };
 
     public func addVoteFor(idOption: Nat, amountVotes : Nat) : Bool{
-        let testOption = poll.getOpt(idOption);
+        let testOption = SB.getOpt(polls,idOption);
         switch(testOption){
             case (?option){
                 option.votes+=amountVotes;
@@ -37,6 +30,6 @@ class Poll(){
     };
 
     public func getOptions() : [Option]{
-        return Buffer.toArray(poll);
+        return SB.toArray(polls);
     }
 };

@@ -1,0 +1,31 @@
+  /*
+   public shared (msg) func airDrop(amount : Nat) : async Bool {
+      if (msg.caller == owner) {
+         let (after, res_tokens) = airdrop.airDrop(amount, whitelist.getWhiteList());
+         switch (after) {
+            case (?after) {
+               whitelist.hardSetwhitelist(after);
+               tokens_amount := res_tokens;
+               return true;
+            };
+            case (null) {
+               return false;
+            };
+         };
+      };
+      return true;
+   };*/
+
+   /*la resta se hace desde el actor
+class Airdrop(total_tokens : Nat){
+    var local_tokens = total_tokens;
+    //añade amount tokens a los usuarios en whithe list
+       public func airDrop(amount : Nat, wl : SHM.StableHashMap<Principal,User.User>): (?SHM.StableHashMap<Principal,User.User>,Nat){
+        for(user in SHM.vals(wl)) {
+            if(amount > local_tokens)return (null, local_tokens);
+            let _ = user.addBalance(amount);
+            local_tokens:=local_tokens-amount;
+        };
+        return (?wl,total_tokens);
+    };
+}*/

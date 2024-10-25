@@ -1,7 +1,7 @@
 import Bool "mo:base/Bool";
 import Principal "mo:base/Principal";
-import HashMap "mo:base/HashMap";
 import User "User";
+import SHM "libs/FunctionalStableHashMap";
 
 /****modificaciones*****/
 // Se sustituyo el contrato para almacentar solo el Principal
@@ -9,15 +9,14 @@ import User "User";
 //se convirtieron en clases las cuales tendran como contratoc entral main.mo
 //Se añadieron funciones que modifican el balance
 
-class Whitelist() {
+class Whitelist(whitelist : SHM.StableHashMap<Principal, User.User>) {
     //HashMap para almacenar la whitelist
-    var whitelist= HashMap.HashMap<Principal, User.User>(32,Principal.equal, Principal.hash); 
-
     //Funcion para añadir usuarios a la whitelist
     public func addUser(id: Principal) : Bool{
         let findUser = isWhitelisted(id);
         if(findUser == false){
-            whitelist.put(id, User.User(id,0));
+            let new_user : User.User = {id = id; var balance = 0;};
+            SHM.put(whitelist, Principal.equal, Principal.hash, id, new_user);
             return true;
         };
         return false;
@@ -25,30 +24,30 @@ class Whitelist() {
 
     //Funcion para obtener el usuario
     public func getUser(id : Principal) : ?User.User{
-        return whitelist.get(id);
+        return SHM.get(whitelist,Principal.equal, Principal.hash, id);
     };
  
     //Funcion para eliminar usuarios de la whitelist
     public func deleteUser(user :  Principal) : Bool {
         let findUser = isWhitelisted(user);
         if(findUser == true){
-            whitelist.delete(user);
+            SHM.delete(whitelist, Principal.equal, Principal.hash, user);
             return true;
         };
         return false;
     };
 
-    public func getWhiteList() : HashMap.HashMap<Principal,User.User>{
+    public func getWhiteList() : SHM.StableHashMap<Principal,User.User>{
         return whitelist;
     };
 
-    public func hardSetwhitelist(new_hm : HashMap.HashMap<Principal,User.User>){
+    /*public func hardSetwhitelist(new_hm : SHM.StableHashMap<Principal,User.User>){
         whitelist := new_hm;
-    };
+    };*/
 
     //Funcion para buscar usuarios
     private func isWhitelisted(user: Principal) : Bool {
-        let isUser = whitelist.get(user);
+        let isUser = getUser(user);
         switch(isUser){
             case (?_){
                 return true;
@@ -58,13 +57,10 @@ class Whitelist() {
             };
         };
     };
-
-   
-
     // DEBUG: Función para imprimir un hashmap completo
     public func printWhitelist() : Text {
         var result : Text = "";
-        for ((user, _) in whitelist.entries()) {
+        for ((user, _) in SHM.entries(whitelist)) {
             result := result # Principal.toText(user) # "\n";
         };
         return result;
