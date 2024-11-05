@@ -3,7 +3,7 @@ import type { ActorMethod } from '@dfinity/agent';
 import type { IDL } from '@dfinity/candid';
 
 export interface _SERVICE {
-  'addOptionToPoll' : ActorMethod<[string], boolean>,
+  'addOptionToPoll' : ActorMethod<[string, Array<string>], boolean>,
   'airDrop' : ActorMethod<[bigint], boolean>,
   'getUser' : ActorMethod<[], string>,
   'register' : ActorMethod<[], boolean>,

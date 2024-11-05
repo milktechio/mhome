@@ -1,5 +1,5 @@
 service : {
-  addOptionToPoll: (text) -> (bool);
+  addOptionToPoll: (text, vec text) -> (bool);
   airDrop: (nat) -> (bool);
   getUser: () -> (text) query;
   register: () -> (bool);

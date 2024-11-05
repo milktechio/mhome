@@ -1,6 +1,6 @@
 service : {
   /// ********************OWNER***************************
-  addOptionToPoll: (text) -> (bool);
+  addOptionToPoll: (text, vec text) -> (bool);
   airDrop: (nat) -> (bool);
   getUser: () -> (text) query;
   /// ********************CALLER*************************

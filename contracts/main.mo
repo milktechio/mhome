@@ -54,9 +54,10 @@ actor Main {
    };
 
    /**********************OWNER****************************/
-   public shared (msg) func addOptionToPoll(name : Text) : async Bool {
+   // Agrega un conjunto de opciones a una votación
+   public shared (msg) func addOptionToPoll(voteName : Text, optionNames : [Text]) : async Bool {
       if (msg.caller == owner) {
-         return poll.addOption(name);
+         return poll.addOptions(voteName, optionNames);
       };
       return false;
    };
@@ -69,6 +70,5 @@ actor Main {
       };
       return false;
    };
-
-
+   
 };
