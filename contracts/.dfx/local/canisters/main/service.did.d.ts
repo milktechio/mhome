@@ -5,9 +5,10 @@ import type { IDL } from '@dfinity/candid';
 export interface _SERVICE {
   'addOptionToPoll' : ActorMethod<[string, Array<string>], boolean>,
   'airDrop' : ActorMethod<[bigint], boolean>,
+  'getPolls' : ActorMethod<[], Array<string>>,
   'getUser' : ActorMethod<[], string>,
-  'register' : ActorMethod<[], boolean>,
-  'registerVote' : ActorMethod<[bigint, bigint], boolean>,
+  'register' : ActorMethod<[string], boolean>,
+  'registerVote' : ActorMethod<[bigint, bigint, bigint], boolean>,
   'removeUser' : ActorMethod<[], boolean>,
   'say' : ActorMethod<[string], string>,
 }
