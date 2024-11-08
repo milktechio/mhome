@@ -21,14 +21,18 @@ export interface SharedWhiteList {
   'count' : bigint,
 }
 export interface _SERVICE {
-  'addOptionToPoll' : ActorMethod<[string, Array<string>], SharedPoll>,
+  'addOptiontoPoll' : ActorMethod<[bigint, string], [] | [SharedPoll]>,
   'airDrop' : ActorMethod<[bigint], [] | [SharedWhiteList]>,
+  'createPoll' : ActorMethod<[string, Array<string>], SharedPoll>,
   'getPollById' : ActorMethod<[bigint], SharedPoll>,
   'getPolls' : ActorMethod<[], SharedBuffer>,
   'getUserBy' : ActorMethod<[string], SharedUser>,
   'register' : ActorMethod<[string], SharedUser>,
   'registerVote' : ActorMethod<[bigint, bigint, bigint], SharedPoll>,
+  'removeOptionToPoll' : ActorMethod<[bigint, bigint], [] | [SharedPoll]>,
+  'removePoll' : ActorMethod<[bigint], [] | [SharedPoll]>,
   'removeUser' : ActorMethod<[], SharedUser>,
+  'renamePoll' : ActorMethod<[bigint, string], [] | [SharedPoll]>,
   'say' : ActorMethod<[string], string>,
 }
 export declare const idlFactory: IDL.InterfaceFactory;

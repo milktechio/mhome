@@ -4,7 +4,7 @@ type KVs<K, V> = AssocList<K, V>;
 type List<T> = ?(T, List<T>);
 type Option = {id : Nat; name : Text};
 type Poll =
-  {id : Nat; name : Text; var options : [Option]; var votes : [var Nat]};
+  {id : Nat; var name : Text; var options : [Option]; var votes : [var Nat]};
 type User = {var balance : Nat; id : Principal};
 actor {
   stable polls :

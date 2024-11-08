@@ -28,15 +28,19 @@ type Option =
    name: text;
  };
 service : {
-  /// ********************OWNER***************************
-  addOptionToPoll: (text, vec text) -> (SharedPoll);
+  addOptiontoPoll: (nat, text) -> (opt SharedPoll);
   airDrop: (nat) -> (opt SharedWhiteList);
+  /// ********************OWNER***************************
+  createPoll: (text, vec text) -> (SharedPoll);
   getPollById: (nat) -> (SharedPoll) query;
   getPolls: () -> (SharedBuffer) query;
   getUserBy: (text) -> (SharedUser) query;
   /// ********************CALLER*************************
   register: (text) -> (SharedUser);
   registerVote: (nat, nat, nat) -> (SharedPoll);
+  removeOptionToPoll: (nat, nat) -> (opt SharedPoll);
+  removePoll: (nat) -> (opt SharedPoll);
   removeUser: () -> (SharedUser);
+  renamePoll: (nat, text) -> (opt SharedPoll);
   say: (text) -> (text) query;
 }

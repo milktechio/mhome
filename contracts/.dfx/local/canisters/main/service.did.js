@@ -21,18 +21,26 @@ export const idlFactory = ({ IDL }) => {
     'elems' : IDL.Vec(SharedPoll),
   });
   return IDL.Service({
-    'addOptionToPoll' : IDL.Func(
-        [IDL.Text, IDL.Vec(IDL.Text)],
-        [SharedPoll],
+    'addOptiontoPoll' : IDL.Func(
+        [IDL.Nat, IDL.Text],
+        [IDL.Opt(SharedPoll)],
         [],
       ),
     'airDrop' : IDL.Func([IDL.Nat], [IDL.Opt(SharedWhiteList)], []),
+    'createPoll' : IDL.Func([IDL.Text, IDL.Vec(IDL.Text)], [SharedPoll], []),
     'getPollById' : IDL.Func([IDL.Nat], [SharedPoll], ['query']),
     'getPolls' : IDL.Func([], [SharedBuffer], ['query']),
     'getUserBy' : IDL.Func([IDL.Text], [SharedUser], ['query']),
     'register' : IDL.Func([IDL.Text], [SharedUser], []),
     'registerVote' : IDL.Func([IDL.Nat, IDL.Nat, IDL.Nat], [SharedPoll], []),
+    'removeOptionToPoll' : IDL.Func(
+        [IDL.Nat, IDL.Nat],
+        [IDL.Opt(SharedPoll)],
+        [],
+      ),
+    'removePoll' : IDL.Func([IDL.Nat], [IDL.Opt(SharedPoll)], []),
     'removeUser' : IDL.Func([], [SharedUser], []),
+    'renamePoll' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Opt(SharedPoll)], []),
     'say' : IDL.Func([IDL.Text], [IDL.Text], ['query']),
   });
 };

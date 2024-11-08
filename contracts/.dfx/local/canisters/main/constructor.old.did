@@ -1,10 +1,40 @@
+type SharedWhiteList = 
+ record {
+   count: nat;
+   shwhitelist: vec SharedUser;
+ };
+type SharedUser = 
+ record {
+   balance: nat;
+   id: principal;
+   status: text;
+ };
+type SharedPoll = 
+ record {
+   id: nat;
+   name: text;
+   options: vec Option;
+   status: text;
+   votes: vec nat;
+ };
+type SharedBuffer = 
+ record {
+   count: nat;
+   elems: vec SharedPoll;
+ };
+type Option = 
+ record {
+   id: nat;
+   name: text;
+ };
 service : {
-  addOptionToPoll: (text, vec text) -> (bool);
-  airDrop: (nat) -> (bool);
-  getPolls: () -> (vec text) query;
-  getUser: () -> (text) query;
-  register: (text) -> (bool);
-  registerVote: (nat, nat, nat) -> (bool);
-  removeUser: () -> (bool);
+  addOptionToPoll: (text, vec text) -> (SharedPoll);
+  airDrop: (nat) -> (opt SharedWhiteList);
+  getPollById: (nat) -> (SharedPoll) query;
+  getPolls: () -> (SharedBuffer) query;
+  getUserBy: (text) -> (SharedUser) query;
+  register: (text) -> (SharedUser);
+  registerVote: (nat, nat, nat) -> (SharedPoll);
+  removeUser: () -> (SharedUser);
   say: (text) -> (text) query;
 }
