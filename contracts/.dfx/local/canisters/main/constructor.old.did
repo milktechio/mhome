@@ -1,0 +1,10 @@
+service : {
+  addOptionToPoll: (text, vec text) -> (bool);
+  airDrop: (nat) -> (bool);
+  getPolls: () -> (vec text) query;
+  getUser: () -> (text) query;
+  register: (text) -> (bool);
+  registerVote: (nat, nat, nat) -> (bool);
+  removeUser: () -> (bool);
+  say: (text) -> (text) query;
+}

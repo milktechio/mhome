@@ -1,6 +1,7 @@
 import Nat "mo:base/Nat";
 import Option "mo:base/Option";
 import Array "mo:base/Array";
+import Buffer "mo:base/Buffer";
 import SB "libs/StableBuffer";
 
 type Poll = {
@@ -15,24 +16,37 @@ type Option = {
     name: Text;
 };
 
+type SharedBuffer = {
+      count : Nat;
+      elems : [SharedPoll];
+};
+
+type SharedPoll = {
+    id : Nat;
+    name : Text;
+    options : [Option];
+    votes : [Nat];
+    status : Text;
+};
+
 class PollOps(polls : SB.StableBuffer<Poll>){
     // Agrega opciones a la votación
-    public func addOptions(voteName: Text, optionNames: [Text]) : Bool {
+    public func createPoll(pollName: Text, optionNames: [Text]) : SharedPoll {
         var _options : [Option] = [];
         for (i in optionNames.keys()){
             _options:= Array.append<Option>(_options, [{id = Array.size(_options);name = optionNames[i]}]);
         };
         let new_poll : Poll = {
             id = SB.size(polls); 
-            name = voteName; 
+            name = pollName; 
             var options = _options;
             var votes = Array.init<Nat>(Array.size(optionNames), 0)
             };
         SB.add(polls, new_poll);
-        return true;
+        return makePollShare(new_poll,"Ok");
     };
 
-   public func addVoteFor(idPoll : Nat, idOption: Nat, amountVotes : Nat) : Bool {
+   public func addVoteFor(idPoll : Nat, idOption: Nat, amountVotes : Nat) : SharedPoll {
         let testPoll = SB.getOpt(polls, idPoll);
         switch (testPoll) {
             case (?poll) {
@@ -40,25 +54,49 @@ class PollOps(polls : SB.StableBuffer<Poll>){
                 switch(testOption){
                     case(?_){
                         poll.votes[idOption]+=amountVotes;
+                        return makePollShare(poll,"Ok");
                     };
                     case(null){
-                        return false;
+                        return makePollShare(poll,"Error: Opcion no existe");
                     };
                 };
-                return true;
             };
             case (null) {
-                return false;
+                return {
+                    id = 100000;
+                    name = "--";
+                    options = [];
+                    votes = [];
+                    status = "Error: Poll no existe";
+                };
             }
         }
     };
 
-    //Devuelve todas las opciones de la votacion
-    public func getAllPollsName() : [Text] {
-    var names : [Text] = [];
-    for(i in SB.vals(polls)){
-        names := Array.append<Text>(names, [i.name]);
+    public func getAllPolls() : SharedBuffer {
+        let buffSh = Buffer.Buffer<SharedPoll>(1);
+        for(i in SB.vals(polls)){
+            buffSh.add(makePollShare(i,"Ok"));
+        };
+        let sharedBuffer = {
+            count = SB.size(polls);
+            elems = Buffer.toArray(buffSh);
+        };
+        return sharedBuffer;
     };
-    return names;
-    }
+
+    public func getPollById(id : Nat) : SharedPoll{
+        return makePollShare(SB.get(polls,id),"Ok");
+    };
+ 
+    private func makePollShare(poll: Poll, status : Text) : SharedPoll{
+        let sharedpoll : SharedPoll = {
+            id = poll.id;
+            name = poll.name;
+            options = poll.options;
+            votes = Array.freeze(poll.votes);
+            status = status;
+        };
+        return sharedpoll;
+    };
 };

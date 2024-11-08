@@ -1,0 +1,19 @@
+// Version: 1.0.0
+type AssocList<K, V> = List<(K, V)>;
+type KVs<K, V> = AssocList<K, V>;
+type List<T> = ?(T, List<T>);
+type Option = {id : Nat; name : Text};
+type Poll =
+  {id : Nat; name : Text; var options : [Option]; var votes : [var Nat]};
+type User = {var balance : Nat; id : Principal};
+actor {
+  stable polls :
+    {var count : Nat; var elems : [var ?Poll]; initCapacity : Nat};
+  stable var tokens_amount : Nat;
+  stable whitelist :
+    {
+      var _count : Nat;
+      initCapacity : Nat;
+      var table : [var KVs<Principal, User>]
+    }
+};
